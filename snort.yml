@@ -1,0 +1,26 @@
+---
+- hosts: snort
+  remote_user: root
+  tasks:
+
+     - copy:
+            src: /etc/ansible/config_files/snort/snort.conf
+            dest: /usr/local/etc/snort/snort.conf
+            backup: yes
+
+     - copy:
+            src: /etc/ansible/config_files/snort/local.rules
+            dest: /usr/local/etc/snort/rules/local.rules
+            backup: yes
+
+     - name: Get Running Process
+       shell: "ps aux | grep snort | grep -v grep | awk '{print $2}'"
+       register: pid
+
+     - name: Kill Running Process
+       shell: "kill {{ item }}"
+       with_items: "{{ pid.stdout }}"
+       failed_when: false
+
+     - name: Start Snort again
+       shell: "/usr/local/bin/snort -u snort -c /usr/local/etc/snort/snort.conf -A fast -s -i snort_bridge -D"
