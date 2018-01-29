@@ -1,0 +1,30 @@
+#Graylog Pipelines
+
+#Tor Lookups
+rule "TOR"
+when
+    has_field("DestinationIp")
+then
+    let intel = tor_lookup(to_string($message.DestinationIp));
+    set_field("tor_node", intel.threat_indicated);
+end
+
+
+#Abuse.ch Lookups
+rule "Abuse.ch Ransomware Tracker"
+when
+    has_field("DestinationIp")
+then
+    let intel = abusech_ransom_lookup_ip(to_string($message.DestinationIp));
+    set_field("Ransomware_IP", intel.threat_indicated);
+end
+
+
+#Spamhaus Lookups
+rule "Spamhaus"
+when
+    has_field("DestinationIp")
+then
+    let intel = spamhaus_lookup_ip(to_string($message.src_addr));
+    set_field("threat_indicated", intel.threat_indicated);
+end
