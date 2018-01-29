@@ -1,0 +1,94 @@
+define ROOT C:\Program Files (x86)\nxlog #1
+
+Moduledir %ROOT%\modules 
+CacheDir %ROOT%\data
+Pidfile %ROOT%\data\nxlog.pid
+SpoolDir %ROOT%\data
+LogFile %ROOT%\data\nxlog.log #2
+
+<Extension gelf> 
+	Module xm_gelf
+</Extension> #3
+
+<Extension ParseDHCP>
+	Module	xm_csv
+		
+		Fields $ID ,$Date ,$Time ,$Description ,$IPAddress ,$ReportedHostname ,$MACAddress ,$UserName ,$TransactionID ,$QResult ,$Probationtime ,$CorrelationID ,$Dhcid ,$VendorClass(Hex) ,$VendorClass(ASCII) ,$UserClass(Hex) ,$UserClass(ASCII) ,$RelayAgentInformation ,$DnsRegError
+	
+	Delimiter	','
+</Extension> #4
+
+<Extension json> 
+	Module xm_json
+</Extension> #5
+
+
+
+<Input DHCP_IN> 
+	Module	im_file
+	File	"C:\\Windows\Sysnative\\dhcp\\DhcpSrvLog-*.log"
+	SavePos	TRUE
+	InputType	LineBased
+	Exec	$Message = $raw_event;
+	
+	Exec if $raw_event =~ /^[0-9][0-9],/						\
+			{														\
+				ParseDHCP->parse_csv();	 							\
+				if $raw_event =~ /^00/ $IDdef = "The log was started.";	\
+				if $raw_event =~ /^01/ $IDdef = "The log was stopped.";	\
+				if $raw_event =~ /^02/ $IDdef = "The log was temporarily paused due to low disk space.";	\
+				if $raw_event =~ /^10/ $IDdef = "A new IP address was leased to a client.";	\
+				if $raw_event =~ /^11/ $IDdef = "A lease was renewed by a client.";	\
+				if $raw_event =~ /^12/ $IDdef = "A lease was released by a client.";	\
+				if $raw_event =~ /^13/ $IDdef = "An IP address was found to be in use on the network.";	\
+				if $raw_event =~ /^14/ $IDdef = "A lease request could not be satisfied because the scope's address pool was exhausted.";	\
+				if $raw_event =~ /^15/ $IDdef = "A lease was denied.";	\
+				if $raw_event =~ /^16/ $IDdef = "A lease was deleted.";	\
+				if $raw_event =~ /^17/ $IDdef = "A lease was expired and DNS records for an expired leases have not been deleted.";	\
+				if $raw_event =~ /^18/ $IDdef = "A lease was expired and DNS records were deleted.";	\
+				if $raw_event =~ /^20/ $IDdef = "A BOOTP address was leased to a client.";	\
+				if $raw_event =~ /^21/ $IDdef = "A dynamic BOOTP address was leased to a client.";	\
+				if $raw_event =~ /^22/ $IDdef = "A BOOTP request could not be satisfied because the scope's address pool for BOOTP was exhausted.";	\
+				if $raw_event =~ /^23/ $IDdef = "A BOOTP IP address was deleted after checking to see it was not in use.";	\
+				if $raw_event =~ /^24/ $IDdef = "IP address cleanup operation has began.";	\
+				if $raw_event =~ /^25/ $IDdef = "IP address cleanup statistics.";	\
+				if $raw_event =~ /^30/ $IDdef = "DNS update request to the named DNS server.";	\
+				if $raw_event =~ /^31/ $IDdef = "DNS update failed.";	\
+				if $raw_event =~ /^32/ $IDdef = "DNS update successful.";	\
+				if $raw_event =~ /^33/ $IDdef = "Packet dropped due to NAP policy.";	\
+				if $raw_event =~ /^34/ $IDdef = "DNS update request failed.as the DNS update request queue limit exceeded.";	\
+				if $raw_event =~ /^35/ $IDdef = "DNS update request failed.";	\
+				if $raw_event =~ /^36/ $IDdef = "Packet dropped because the server is in failover standby role or the hash of the client ID does not match.";	\
+				if $raw_event =~ /^[5-9][0-9]/ $IDdef = "Codes above 50 are used for Rogue Server Detection information.";	\
+				if $raw_event =~ /^.+,.+,.+,.+,.+,.+,.+,.+,0,/ $QResultDef = "NoQuarantine";	\
+				if $raw_event =~ /^.+,.+,.+,.+,.+,.+,.+,.+,1,/ $QResultDef = "Quarantine";	\
+				if $raw_event =~ /^.+,.+,.+,.+,.+,.+,.+,.+,2,/ $QResultDef = "Drop Packet";	\
+				if $raw_event =~ /^.+,.+,.+,.+,.+,.+,.+,.+,3,/ $QResultDef = "Probation";	\
+				if $raw_event =~ /^.+,.+,.+,.+,.+,.+,.+,.+,6,/ $QResultDef = "No Quarantine Information ProbationTime:Year-Month-Day Hour:Minute:Second:MilliSecond.";	\
+				$host			=	hostname_fqdn();				\
+				$EventTime 		= 	parsedate($Date + " " + $Time);	\
+				$SourceName 	= 	"DHCPEvents";					\
+			$Message 		= 	to_json();						\
+				}														\
+				else													\
+			drop();
+
+</Input> #6
+
+
+
+
+<Output DHCP_Out>
+    Module      om_udp
+		OutputType  GELF
+		Host        hostnameoflogserver.com
+		Port        514 *(This number can be changed to whatever input your SIEM is listening on.)*
+</Output> #7
+
+
+
+
+<Route DHCP>
+    Path        DHCP_IN => DHCP_OUT
+</Route> #8
+
