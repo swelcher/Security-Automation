@@ -1,0 +1,52 @@
+define ROOT C:\Program Files (x86)\nxlog #1
+
+Moduledir %ROOT$\modules
+CacheDir %ROOT%\data
+Pidfile %ROOT%\data\nxlog.pid
+SpoolDir %ROOT%\data
+LogFile %ROOT%\data\nxlog.log #2
+
+<Extension gelf>
+	Module xm_gelf
+</Extension> #3
+
+<Extention json>
+	Module xm_json
+</Extension> #4
+
+<Extension w3c1>
+	Module 	xm_csv
+
+		Fields $date, $time, $s-ip, $cs-method, $cs-uri-stem, $cs-uri-query, $s-port, $cs-username, $c-ip, $cs(User-Agent), $cs(Referer), $sc-status, $sc-substatus, $sc-win32-status, $time-taken
+
+		Delimiter ' '
+</Extension> #5
+
+<Input IIS_In>
+	Module 	im_file
+	File 	"C:\\inetpub\\logs\\LogFiles\\W3SVC1\\*.*"
+	SavePos True
+	InputType	LineBased
+	Exec if $raw_event =~ /^#/ drop();
+		else
+		{
+			w3c1->parse_csv();
+				$host		=	hostname_fqdn();
+				$EventTime	=	parsedata($date + " " + $time + "Z");
+				$Time 		=	($Time + "Z");
+				$SourceName	=	"IIS";
+			$SiteName 	= "Default Web Site";
+			$Message	= to_json();
+		}
+</Input> #6
+
+<Output IIS_Out>
+	Module 	om_udp
+	Host 	log server ip
+	Port 	log server listening port
+	OutputType 	gelf
+</Output> #7
+
+<Route 1>
+	Path 	IIS_In => IIS_Out
+</Route> #8
