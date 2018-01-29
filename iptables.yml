@@ -1,0 +1,30 @@
+---
+
+- hosts: new
+  user: root
+  tasks:
+
+        - name: Uninstall firewalld
+          shell: "sudo yum install iptables-services"
+
+        - name: Stop FirewallD Service and Start IPtables
+          shell: "sudo systemctl stop firewalld && sudo systemctl start iptables; sudo systemctl start ip6tables"
+
+        - name: Disable FirewallD service and Enable Iptables Service
+          shell: "sudo systemctl disable firewalld"
+          shell: "sudo systemctl mask firewalld"
+          shell: "sudo systemctl enable iptables; sudo systemctl enable ip6tables"
+
+        - name: Flush IPTables
+          shell: "sudo iptables -P INPUT ACCEPT; sudo iptables -P OUTPUT ACCEPT; sudo iptables -F"
+
+        - name: Configure Rules
+          shell: "sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,Related -j ACCEPT"
+          shell: "sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT"
+          shell: "sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT"
+          shell: "sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT"
+          shell: "sudo iptables -I INPUT 1 -i lo -j ACCEPT"
+          shell: "sudo iptables -A INPUT DROP"
+
+        - name: Persistent IPtables
+          shell: "/sbin/service iptables save"
