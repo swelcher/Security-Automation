@@ -1,6 +1,6 @@
 ---
 - hosts: snort
-  remote_user: root
+  remote_user: ConfigUser
   tasks:
 
      - copy:
