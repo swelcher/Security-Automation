@@ -1,3 +1,10 @@
 -Keep indices between 20-50GB
 -One shard per instance
 -Prefer to maintain 3+ in a cluster
+-ALLOCATE ENOUGH SPACE
+-local monitoring
+-Assign half ram to java heap, but don't go over 32GB
+-Avoid swap
+-roll indices by days
+-Firewalls will contribute a majority of the traffic
+-Never run out of space
