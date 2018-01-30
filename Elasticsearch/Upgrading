@@ -1,0 +1,38 @@
+#Stop shard allocation for update
+PUT _cluster/settings
+curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": "none"
+  }
+}
+'
+#stop index and perform flush
+curl -XPOST 'localhost:9200/_flush/synced?pretty'
+
+#shutdown all nodes
+sudo systemctl stop elasticsearch.service
+sudo -i service elasticsearch stop
+kill $(cat pid)
+
+#upgrade
+Always use package manager if you can
+
+#upgrade plugins
+
+#start nodes and get health of each node
+curl -XGET 'localhost:9200/_cat/health?pretty'
+curl -XGET 'localhost:9200/_cat/nodes?pretty'
+
+#re-enable shard allocation DON'T FORGET
+curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": "all"
+  }
+}
+'
+
+#check health
+curl -XGET 'localhost:9200/_cat/health?pretty'
+curl -XGET 'localhost:9200/_cat/recovery?pretty'
