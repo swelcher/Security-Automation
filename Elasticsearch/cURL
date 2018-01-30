@@ -1,0 +1,27 @@
+#get unassigned shards
+curl -XGET localhost:9200/_cat/shards?h=index,shard,prirep,state,unassigned.reason| grep UNASSIGNED
+
+#Moving Shards/allocating empty shards, if moving use "move" in place of "allocate_empty_primary"
+curl -XPOST 'localhost:9200/_cluster/reroute' -d '{ "commands" :
+  [ { "allocate_empty_primary" :
+      { "index" : "index name", "shard" : 0, "node" : "127.0.0.1" }
+  }]
+}'
+
+#Shard Reallocation
+curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": "all"
+  }
+}
+'
+
+#Get indices
+curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+
+#Get clustherhealth
+curl -XGET http://localhost:9200/_cluster/health?pretty=true
+
+#delete index
+curl -XDELETE 'localhost:9200/indexname/'
