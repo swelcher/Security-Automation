@@ -1,0 +1,3 @@
+-Keep indices between 20-50GB
+-One shard per instance
+-Prefer to maintain 3+ in a cluster
