@@ -2,6 +2,7 @@
 curl -XGET localhost:9200/_cat/shards?h=index,shard,prirep,state,unassigned.reason| grep UNASSIGNED
 
 #Moving Shards/allocating empty shards, if moving use "move" in place of "allocate_empty_primary"
+#Also replace "index name" with the unallocated index name.
 curl -XPOST 'localhost:9200/_cluster/reroute' -d '{ "commands" :
   [ { "allocate_empty_primary" :
       { "index" : "index name", "shard" : 0, "node" : "127.0.0.1" }
@@ -9,6 +10,7 @@ curl -XPOST 'localhost:9200/_cluster/reroute' -d '{ "commands" :
 }'
 
 #Shard Reallocation
+# Run this after Allocating unallocated shard.
 curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
 {
   "persistent": {
