@@ -1,15 +1,26 @@
-#get unassigned shards
+# Get clustherhealth
+curl -XGET http://localhost:9200/_cluster/health?pretty=true
+
+# get unassigned shards
 curl -XGET localhost:9200/_cat/shards?h=index,shard,prirep,state,unassigned.reason| grep UNASSIGNED
 
-#Moving Shards/allocating empty shards, if moving use "move" in place of "allocate_empty_primary"
-#Also replace "index name" with the unallocated index name.
+
+# delete index - If drive space is full, delete oldest index. Everyonce in a while Graylog will have an issue
+# where it will not load balance the indices, and a drive may fill up. Deleting/adding space and restarting the services:
+# systemctl restart mongod
+# systemctl restart elasticsearch
+# systemctl restart graylog-server  
+curl -XDELETE 'localhost:9200/indexname/'
+
+# Moving Shards/allocating empty shards, if moving use "move" in place of "allocate_empty_primary"
+# Also replace "index name" with the unallocated index name.
 curl -XPOST 'localhost:9200/_cluster/reroute' -d '{ "commands" :
   [ { "allocate_empty_primary" :
-      { "index" : "index name", "shard" : 0, "node" : "127.0.0.1" }
+      { "index" : "index name", "shard" : 0, "node" : "127.0.0.1", "accept_data_loss": "true" }
   }]
 }'
 
-#Shard Reallocation
+# Shard Reallocation
 # Run this after Allocating unallocated shard.
 curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: application/json' -d'
 {
@@ -22,8 +33,6 @@ curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: applicati
 #Get indices
 curl -XGET 'localhost:9200/_cat/indices?v&pretty'
 
-#Get clustherhealth
-curl -XGET http://localhost:9200/_cluster/health?pretty=true
 
 #delete index
 curl -XDELETE 'localhost:9200/indexname/'
