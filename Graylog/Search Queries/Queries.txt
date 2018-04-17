@@ -1,0 +1,12 @@
+# A quick way to identify rogue svchost processes is to perform consecutive queries. As of right now, there is not a way to
+# dynamically set variables based on specific search queries so we have to perform multiple queries.
+# Within our un-altered pslist stream, we can perform a query such as:
+Name:services.exe
+
+# We will now place an inverse query for all the PID's of the services.exe values into a OR query for the PPID field to
+# look like:
+NOT PPID:(464 848 484)
+
+# The values 464, 848, and 484 are obviously just place holders for whatever the value of the services.exe PID values are
+# set to currently.
+# If there are any svchost.exe's or taskhost.exe's listed, these should be further inspected.
