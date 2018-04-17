@@ -7,5 +7,4 @@
 -Avoid swap
 -roll indices by days
 -Firewalls will contribute a majority of the traffic
--Never run out of space
 -Not Uncommon for Firewalls to account for 50%-75%+ of data which can help when determining how to size instance
