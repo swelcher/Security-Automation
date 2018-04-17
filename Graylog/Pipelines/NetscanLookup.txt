@@ -1,0 +1,15 @@
+# This rule is created to extract the IP address of the remote IP address from the Netscan plugin. Once the extraction
+# has been performed, a lookup to Alienvaults Open Threat Exchang is performed and if the IP address has been previously
+# associated with malicious activity, a field labeled "IPAddress_threat_indicated" is created and a True value is set.
+# If no malicious activity has been previously related to that IP address, then the "IPAddress_threat_indicated" field
+# is set to false.
+
+rule "Netscan IP Extraction & Lookup"
+when
+    contains(to_string($message.plugin), "netscan")
+then
+    let ipaddr = split(":", to_string($message.ForeignAddr));
+    set_field("IPAddress", ipaddr[0]);
+    let src_addr_intel = threat_intel_lookup_ip(to_string($message.IPAddress), "IPAddress");
+    set_fields(src_addr_intel);
+end
