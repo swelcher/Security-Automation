@@ -23,7 +23,24 @@ when
     !contains(to_string($message.Name), "OneDrive.exe") ||
     !contains(to_string($message.Name), "powershell.exe") ||
     !contains(to_string($message.Name), "cmd.exe") ||
-    !contains(to_string($message.Name), "slack.exe")
+    !contains(to_string($message.Name), "slack.exe") ||
+    !contains(to_string($message.Name), "chrome.exe") ||
+    !contains(to_string($message.Name), "MicrosoftEdge.exe") ||
+    !contains(to_string($message.Name), "MsMpEng.exe") ||
+    !contains(to_string($message.Name), "dllhost.exe") ||
+    !contains(to_string($message.Name), "WINWORD.exe") ||
+    !contains(to_string($message.Name), "EXCEL.EXE") ||
+    !contains(to_string($message.Name), "OUTLOOK.EXE") ||
+    !contains(to_string($message.Name), "Calculator.exe") ||
+    !contains(to_string($message.Name), "RuntimeBroker.exe") ||
+    !contains(to_string($message.Name), "dwm.exe") ||
+    !contains(to_string($message.Name), "WmiPrvSE.exe") ||
+    !contains(to_string($message.Name), "WUDFHost.exe") ||
+    !contains(to_string($message.Name), "spoolsv.exe")
+
+
+
+
 then
     route_to_stream(name: "PSList");
 end
