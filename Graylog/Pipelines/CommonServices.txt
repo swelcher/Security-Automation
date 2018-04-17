@@ -1,0 +1,20 @@
+rule "Removing Typical Services"
+when
+    contains(to_string($message.plugin), "pslist") &&
+    !contains(to_string($message.Name), "svchost.exe") ||
+    !contains(to_string($message.Name), "taskhost.exe") ||
+    !contains(to_string($message.Name), "winlogon.exe") ||
+    !contains(to_string($message.Name), "wininit.exe") ||
+    !contains(to_string($message.Name), "services.exe") ||
+    !contains(to_string($message.Name), "explorer.exe") ||
+    !contains(to_string($message.Name), "lsm.exe") ||
+    !contains(to_string($message.Name), "csrss.exe") ||
+    !contains(to_string($message.Name), "lsass.exe") ||
+    !contains(to_string($message.Name), "smss.exe") ||
+    !contains(to_string($message.Name), "rdpclip.exe") ||
+    !contains(to_string($message.Name), "System") ||
+    !contains(to_string($message.Name), "iexplore.exe")
+
+then
+    route_to_stream(name: "PSList");
+end
