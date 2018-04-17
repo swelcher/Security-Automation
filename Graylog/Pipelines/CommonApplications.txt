@@ -1,3 +1,7 @@
+# The purpose of this Rule is to assist with filtering out common applications that may be currently running to not only
+# identify unknown applications but also to assist with filtering out correctly spelled services to identify instances
+# when an attacker may do something like rename svchost.exe to scvhost.exe. This helps removing the possibility of
+# becoming "cross-eyed" when looking for rogue applications.
 rule "Removing Typical Services"
 when
     contains(to_string($message.plugin), "pslist") &&
@@ -13,8 +17,13 @@ when
     !contains(to_string($message.Name), "smss.exe") ||
     !contains(to_string($message.Name), "rdpclip.exe") ||
     !contains(to_string($message.Name), "System") ||
-    !contains(to_string($message.Name), "iexplore.exe")
-
+    !contains(to_string($message.Name), "iexplore.exe") ||
+    !contains(to_string($message.Name), "conhost.exe") ||
+    !contains(to_string($message.Name), "firefox.exe") ||
+    !contains(to_string($message.Name), "OneDrive.exe") ||
+    !contains(to_string($message.Name), "powershell.exe") ||
+    !contains(to_string($message.Name), "cmd.exe") ||
+    !contains(to_string($message.Name), "slack.exe")
 then
     route_to_stream(name: "PSList");
 end
