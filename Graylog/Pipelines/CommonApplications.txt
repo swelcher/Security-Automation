@@ -2,7 +2,7 @@
 # identify unknown applications but also to assist with filtering out correctly spelled services to identify instances
 # when an attacker may do something like rename svchost.exe to scvhost.exe. This helps removing the possibility of
 # becoming "cross-eyed" when looking for rogue applications.
-rule "Removing Typical Services"
+rule "Removing Typical Applications"
 when
     contains(to_string($message.plugin), "pslist") &&
     !contains(to_string($message.Name), "svchost.exe") ||
