@@ -36,7 +36,10 @@ when
     !contains(to_string($message.Name), "dwm.exe") ||
     !contains(to_string($message.Name), "WmiPrvSE.exe") ||
     !contains(to_string($message.Name), "WUDFHost.exe") ||
-    !contains(to_string($message.Name), "spoolsv.exe")
+    !contains(to_string($message.Name), "spoolsv.exe") ||
+    !contains(to_string($message.Name), "notepad++.exe") ||
+    !contains(to_string($message.Name), "notepad.exe")
+
 
 
 
