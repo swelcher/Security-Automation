@@ -129,6 +129,12 @@
 
 
 
+<!--Cylance Alerts-->
+  <Query Id="20" Path="Application">
+    <Select Path="Application">*[System[Provider[(@Name='CylanceSvc')]] and (EventId='2')]</Select>
+  </Query>
+    
+    
 <!--Domain Admin activity -->
 
 <!--New/Deleted DNS Records -->
