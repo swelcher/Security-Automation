@@ -5,6 +5,6 @@
 -local monitoring
 -Assign half ram to java heap, but don't go over 32GB
 -Avoid swap
--roll indices by days
+-Rotate indices by days
 -Firewalls will contribute a majority of the traffic
 -Not Uncommon for Firewalls to account for 50%-75%+ of data which can help when determining how to size instance
