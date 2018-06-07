@@ -1,1 +1,20 @@
 <!--The purpose of this XML file is for use of configuring WEC -->
+<!-- New/Modified Scheduled Tasks -->
+
+<!--Services Started/Stopped/Restarted/Installed -->
+
+<!--All of Sysmon -->
+
+<!--Audit Log Clearing -->
+
+<!--New/Enabled/Deleted Users, Security Groups, and Computers -->
+
+<!--Objects added/deleted from Security Groups -->
+
+<!--Domain Admin activity -->
+
+<!--New/Deleted DNS Records -->
+
+<!--New/Deleted Virtual Machines and VHD's -->
+
+<!--Reboots -->
