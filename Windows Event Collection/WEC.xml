@@ -29,7 +29,7 @@
 
 <!--Audit Log Clearing -->
   <Query Id="5" Path="Security">
-    <Select Path="Security">*[System[(EventID='1102')]]</Security>
+    <Select Path="Security">*[System[(EventID='1102')]]</Select>
   </Query>
 
 
@@ -117,7 +117,7 @@
 
 <!--Powershell Commands-->
   <Query Id="18" Path="Microsoft-Windows-Powershell/Operational">
-    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID='4104 or EventID='24577')]]</Select>
+    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID='4104' or EventID='24577')]]</Select>
   </Query>
 
 
