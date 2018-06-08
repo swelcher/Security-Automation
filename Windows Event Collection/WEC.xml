@@ -1,7 +1,7 @@
 <!--The purpose of this XML file is for use of configuring WEC -->
 <!-- New/Modified Scheduled Tasks -->
   <Query Id="1" Path="Security">
-    <Select Path="Security">*[System(EventID='4698') or (EventID='4699') or (EventID='4700') or (EventID='4701') or (EventID='4702')]]</Select>
+    <Select Path="Security">*[System[(EventID='4698' or EventID='4699' or EventID='4700' or EventID='4701' or EventID='4702')]]</Select>
   </Query>
 
 
@@ -13,7 +13,7 @@
                 
 
 
-<!--ServicecInstalled -->
+<!--Service Installed -->
   <Query Id="3" Path="System">
     <Select Path="System">*[System(EventID='7045')]]</Select>
   </Query>
@@ -36,21 +36,21 @@
 
 <!--New/Deleted Users, and Computers -->
   <Query Id="6" Path="Security">
-    <Select Path="Security">*[System[(EventID='4720') or (EventID='4726') or (EventID='4741') or (EventID='4743')]]</Select>
+    <Select Path="Security">*[System[(EventID='4720' or EventID='4726' or EventID='4741' or EventID='4743')]]</Select>
   </Query>
 
 
 
 <!--Security Local/Global Groups Created/Deleted-->
   <Query Id="7" Path="Security">
-    <Select Path="Security">*[System[(EventID='4727') or (EventID='4730') or (EventID='4731') or (EventID='4734')]]</Select>
+    <Select Path="Security">*[System[(EventID='4727' or EventID='4730' or EventID='4731' or EventID='4734')]]</Select>
   </Query>
 
 
 
 <!--Object Added/Deleted to Local/Global Security groups-->
   <Query Id="8" Path="Security">
-    <Select Path="Security">*[System[(EventID='4728') or (EventID='4729') or (EventID='4732') or (EventID='4733')]]</Select>
+    <Select Path="Security">*[System[(EventID='4728' or EventID='4729' or EventID='4732' or EventID='4733')]]</Select>
   </Query>
 
 
@@ -64,18 +64,18 @@
 
 <!--New/Deleted Virtual Machines and VHD's(Hyper-V)-->
   <Query Id="10" Path="Microsoft-Windows-Hyper-V-VMMS-Operational">
-    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Operational">*[System[(EventID='27310') or (EventID='27311')]]</Select>
+    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Operational">*[System[(EventID='27310' or EventID='27311')]]</Select>
   </Query>
 
   <Query Id="11" Path="Microsoft-Windows-Hyper-V-VMMS-Admin">
-    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Admin">*[System[(EventID='13002') or (EventID='13003')]]</Select>
+    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Admin">*[System[(EventID='13002' or EventID='13003')]]</Select>
   </Query>
 
 
 
 <!--Accounts Enabled/Disabled -->
   <Query Id="12" Path="Security">
-    <Select Path="Security">*[System[(EventID='4722'] or (EventID='4725')]]</Select>
+    <Select Path="Security">*[System[(EventID='4722' or EventID='4725')]]</Select>
   </Query>
 
 
@@ -96,7 +96,7 @@
 
 <!--Attempted Password Change/Reset-->
   <Query Id="15" Path="Security">
-    <Select Path="Security">*[System[(EventID='4723') or (EventID='4724')]]</Select>
+    <Select Path="Security">*[System[(EventID='4723' or EventID='4724')]]</Select>
   </Query>
   
 
@@ -117,7 +117,7 @@
 
 <!--Powershell Commands-->
   <Query Id="18" Path="Microsoft-Windows-Powershell/Operational">
-    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID='4104) or (EventID='24577')]]</Select>
+    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID='4104 or EventID='24577')]]</Select>
   </Query>
 
 
@@ -131,7 +131,7 @@
 
 <!--Cylance Alerts-->
   <Query Id="20" Path="Application">
-    <Select Path="Application">*[System[Provider[(@Name='CylanceSvc')]] and (EventId='2')]</Select>
+    <Select Path="Application">*[System[Provider[(@Name='CylanceSvc')]] and (EventID='2')]</Select>
   </Query>
     
     
