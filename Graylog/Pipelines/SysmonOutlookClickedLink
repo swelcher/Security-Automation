@@ -1,0 +1,11 @@
+# This is used in combination with Sysmon to extract instances when outlook launches chrome.exe, iexplore.exe, or firefox.exe,
+# which indicates that a user clicked an email from Outlook. I will create a dashboard for this purpose to quickly be able to lookup
+# when an incident occurs if the user clicked a link from an email or not.
+rule "Outlook Processing"
+when
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), "chrome.exe")) ||
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), "firefox.exe")) ||
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), "iexplore.exe")) 
+then
+  route_to_stream("Outlook Processing");
+end
