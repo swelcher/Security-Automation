@@ -1,49 +1,74 @@
 # The purpose of this Rule is to assist with filtering out common applications that may be currently running to not only
 # identify unknown applications but also to assist with filtering out correctly spelled services to identify instances
 # when an attacker may do something like rename svchost.exe to scvhost.exe. This helps removing the possibility of
-# becoming "cross-eyed" when looking for rogue applications.
-rule "Removing Typical Applications"
+# becoming "cross-eyed" when looking for rogue applications. 
+
+# I've actually decided to include this functionality into vol2log, as I've decided to avoid being too dependent on Graylog. I'll leave this pipeline here though in the event someone else finds it useful.
+
+rule "Removing Typical Services"
 when
-    contains(to_string($message.plugin), "pslist") &&
-    !contains(to_string($message.Name), "svchost.exe") ||
-    !contains(to_string($message.Name), "taskhost.exe") ||
-    !contains(to_string($message.Name), "winlogon.exe") ||
-    !contains(to_string($message.Name), "wininit.exe") ||
-    !contains(to_string($message.Name), "services.exe") ||
-    !contains(to_string($message.Name), "explorer.exe") ||
-    !contains(to_string($message.Name), "lsm.exe") ||
-    !contains(to_string($message.Name), "csrss.exe") ||
-    !contains(to_string($message.Name), "lsass.exe") ||
-    !contains(to_string($message.Name), "smss.exe") ||
-    !contains(to_string($message.Name), "rdpclip.exe") ||
-    !contains(to_string($message.Name), "System") ||
-    !contains(to_string($message.Name), "iexplore.exe") ||
-    !contains(to_string($message.Name), "conhost.exe") ||
-    !contains(to_string($message.Name), "firefox.exe") ||
-    !contains(to_string($message.Name), "OneDrive.exe") ||
-    !contains(to_string($message.Name), "powershell.exe") ||
-    !contains(to_string($message.Name), "cmd.exe") ||
-    !contains(to_string($message.Name), "slack.exe") ||
-    !contains(to_string($message.Name), "chrome.exe") ||
-    !contains(to_string($message.Name), "MicrosoftEdge.exe") ||
-    !contains(to_string($message.Name), "MsMpEng.exe") ||
-    !contains(to_string($message.Name), "dllhost.exe") ||
-    !contains(to_string($message.Name), "WINWORD.exe") ||
-    !contains(to_string($message.Name), "EXCEL.EXE") ||
-    !contains(to_string($message.Name), "OUTLOOK.EXE") ||
-    !contains(to_string($message.Name), "Calculator.exe") ||
-    !contains(to_string($message.Name), "RuntimeBroker.exe") ||
-    !contains(to_string($message.Name), "dwm.exe") ||
-    !contains(to_string($message.Name), "WmiPrvSE.exe") ||
-    !contains(to_string($message.Name), "WUDFHost.exe") ||
-    !contains(to_string($message.Name), "spoolsv.exe") ||
-    !contains(to_string($message.Name), "notepad++.exe") ||
-    !contains(to_string($message.Name), "notepad.exe")
-
-
-
-
-
+    (has_field("Name") && !contains(to_string($message.Name), "svchost.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "taskhost.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "winlogon.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "wininit.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "services.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "explorer.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "lsm.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "csrss.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "lsass.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "smss.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "rdpclip.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "System")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "iexplore.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "dllhost.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "rundll32.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "WmiPrvSE.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "conhost.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "regsvr32.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "dwm.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "WUDFHost.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "LogonUI.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "mobsync.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "wmdcBase.exe.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "unsecapp.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "audiodg.exe")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "chrome.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "firefox.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "MicrosoftEdge.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "audiodg.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "Calculator.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "OUTLOOK.EXE")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "POWERPNT.EXE")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "EXCEL.EXE")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "MSACCESS.EXE")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "onenoteim.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "WINWORD.EXE")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "OfficeClickToRun.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "Taskmgr.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "mmc.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "7zFM.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "cmd.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "powershell.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "powershell_ise.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "notepad++.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "OneDrive.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "RuntimeBroker.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "SearchUI.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "audiodg.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "SearchIndexer.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "sppsvc.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "WmiApSrv.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "wifitask.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "mobsync.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "ngen.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "AcroRd32.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "AcroCEF.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "Creative Cloud.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "EMET_Service.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "slack.exe")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "System Idle Process")) ||
+	(has_field("Name") && !contains(to_string($message.Name), "System interrupts")) ||
+    (has_field("Name") && !contains(to_string($message.Name), "unsecapp.exe")
 then
-    route_to_stream(name: "PSList");
+    route_to_stream(name: "Filtered PSList");
 end
