@@ -1,0 +1,7 @@
+rule "Abuse.ch Ransomware Tracker"
+when
+  has_field("DestinationIP")
+then
+  let intel = abusech_ransom_lookup_ip(to_string($message.DestinationIp));
+  set_field("Ransomware_IP", intel.threat_indicated);
+end
