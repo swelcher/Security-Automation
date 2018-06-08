@@ -1,3 +1,5 @@
+# Useful in the event that a drive fills up
+
 # Get clustherhealth
 curl -XGET http://localhost:9200/_cluster/health?pretty=true
 
@@ -29,6 +31,9 @@ curl -XPUT 'localhost:9200/_cluster/settings?pretty' -H 'Content-Type: applicati
   }
 }
 '
+
+
+#Additional Commands
 
 #Get indices
 curl -XGET 'localhost:9200/_cat/indices?v&pretty'
