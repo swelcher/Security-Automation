@@ -1,3 +1,4 @@
+<QueryList>
 <!--The purpose of this XML file is for use of configuring WEC -->
 <!-- New/Modified Scheduled Tasks -->
   <Query Id="1" Path="Security">
@@ -139,3 +140,4 @@
 
 <!--New/Deleted DNS Records -->
     
+</QueryList>
