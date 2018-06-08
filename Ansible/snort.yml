@@ -1,3 +1,4 @@
+# I use this playbook to update all of the snort sensors throughout an environment.
 ---
 - hosts: snort
   remote_user: ConfigUser
