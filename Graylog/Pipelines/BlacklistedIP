@@ -1,0 +1,11 @@
+# I will create a stream for Snort alerts that are identifying communication to Blacklisted IP addresses. The reason I create this pipeline
+# is if a Snort sensor is monitoring traffic outside of a firewall, this can be quite noisy, so by identifying the internal networks
+# you can trigger this alert only when an endpoint within the network communicates with a Blacklisted IP.
+rule "Blacklisted IP"
+when
+  contains(to_string($message.src_ip), "192.168.") ||
+  contains(to_string($message.dst_ip), "192.168.")
+then
+  set_field("Blacklisted_IP", true);
+end
+  
