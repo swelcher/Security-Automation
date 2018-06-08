@@ -1,3 +1,4 @@
+# I was using this before I forced myself to learn firewalld. Perhaps it will be useful to others.
 ---
 
 - hosts: new
