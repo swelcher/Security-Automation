@@ -1,0 +1,10 @@
+# This rule can be applied against any field with an IP address
+rule "OTX Lookup"
+when
+  has_field("DestinationIP")
+then
+  let intel = otx_lookup_ip(to_string($message.DestinationIp));
+  set_field("threat_indicated", intel.otx_threat_indicated);
+  set_field("threat_ids", intel.otx_threat_ids);
+  set_field("threat_names", intel.otx_threat_names);
+end
