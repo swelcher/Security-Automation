@@ -1,0 +1,9 @@
+# Similar to the Outlook phishing pipeline, this one will identify if a .docm, .xlsm, .pptm files have been opened from Outlook.
+rule "Outlook Processing for Macro Documents"
+when
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), ".pptm")) ||
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), ".docm")) ||
+  (contains(to_string($message.EventID), "1") && contains(to_string($message.ParentImage), "OUTLOOK.EXE") && contains(to_string($message.Image), "i.xlsm")) 
+then
+  route_to_stream("Outlook Processing");
+end
