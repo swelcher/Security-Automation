@@ -159,11 +159,15 @@
   <Query Id="20" Path="Application">
     <Select Path="Application">*[System[Provider[(@Name='CylanceSvc')]] and (EventID='2')]</Select>
   </Query>
-    
-    
-<!--Domain Admin activity -->
 
-<!--New/Deleted DNS Records -->
+
+
+<!--Windows Firewall-->
+  <Query Id="21" Path="Security">
+    <Select Path="Security">*[System[(EventID='5024' or EventID='5025' or EventID='5030' or EventID='5031' or EventID='5034')]</Select>
+  </Query>
+    
+
     
 </QueryList>
 
