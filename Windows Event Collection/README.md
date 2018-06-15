@@ -1,5 +1,5 @@
 # Overview
-There were a ton of different configurations available online, but everyone that I tried to utilize, came back with a "too many parameters"
+There were a ton of different configurations available online, but a large majority of them that you try to utilize, came back with a "too many parameters"
 error, and I could not find any documentation as to what wecutil was complaining about or any log files to help trouble shoot the issue.
 
 There are a few fields you can change if you do not like the default settings. After you have executed the command below, you will
