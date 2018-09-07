@@ -149,8 +149,8 @@
 
 
 <!--Reboots -->
-  <Query Id="19" Path="Application">
-    <Select Path="Application">*[System[(EventID='1074')]]</Select>
+  <Query Id="19" Path="System">
+    <Select Path="System">*[System[(EventID='1074')]]</Select>
   </Query>
 
 
