@@ -84,7 +84,7 @@
 <!--Blocked By SRP -->
   <Query Id="9" Path="Application">
     <Select Path="Application">*[System[(EventID='866')]]</Select>
-</Query>
+  </Query>
 
 
 
@@ -149,21 +149,14 @@
 
 
 <!--Reboots -->
-  <Query Id="19" Path="Security">
-    <Select Path="Security">*[System[(EventID='1074')]]</Select>
-  </Query>
-
-
-
-<!--Cylance Alerts-->
-  <Query Id="20" Path="Application">
-    <Select Path="Application">*[System[Provider[(@Name='CylanceSvc')]] and (EventID='2')]</Select>
+  <Query Id="19" Path="Application">
+    <Select Path="Application">*[System[(EventID='1074')]]</Select>
   </Query>
 
 
 
 <!--Windows Firewall-->
-  <Query Id="21" Path="Security">
+  <Query Id="20" Path="Security">
     <Select Path="Security">*[System[(EventID='5024' or EventID='5025' or EventID='5030' or EventID='5031' or EventID='5034')]</Select>
   </Query>
     
