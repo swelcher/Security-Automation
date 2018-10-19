@@ -1,0 +1,26 @@
+<QueryList>
+  <Query Id="1" Path="Security">
+    <Select Path="Security">*</Select>
+    <Suppress Path="Security">*[System[(EventID='4703') or (EventID='4662') or (EventID='4663') or (EventID='4627') or (EventID='5152') or (EventID='5157') or (EventID='5447') or (EventID='4670') or (EventID='4634') or (EventID='4656') or  (EventID='4673') or (EventID='4688') or (EventID='5058') or (EventID='4985') or  (EventID='4689')]]</Suppress>
+  </Query>
+  <Query Id="2" Path="System">
+    <Select Path="System">*[System[(EventID='7035') or (EventID='7045')]]</Select>
+  </Query>
+  <Query Id="3" Path="Microsoft-Windows-Sysmon/Operational">
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*</Select>
+  </Query>
+  <Query Id="4" Path="Application">
+    <Select Path="Application">*[System[(EventID='866')]]</Select>
+  </Query>
+  <Query Id="5" Path="Microsoft-Windows-Hyper-V-VMMS-Operational">
+    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Operational">*[System[(EventID='27310') or (EventID='27311')]]</Select>
+  </Query>
+  <Query Id="6" Path="Microsoft-Windows-Hyper-V-VMMS-Admin">
+    <Select Path="Microsoft-Windows-Hyper-V-VMMS-Admin">*[System[(EventID='13002') or (EventID='13003')]]</Select>
+  </Query>
+  <Query Id="7" Path="Microsoft-Windows-Powershell/Operational">
+    <Select Path="Microsoft-Windows-Powershell/Operational">*[System[(EventID='4104') or (EventID='24577')]]</Select>
+  </Query>
+  <Query Id="8" Path="Microsoft-Windows-TerminalServices-LocalSessionManager/Operational">
+    <Select Path="Microsoft-Windows-TerminalServices-LocalSessionManager/Operational">*[System[(EventID='21')]]</Select>
+  </Query>
